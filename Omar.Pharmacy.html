@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omar Pharmacy</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+:root {
+--primary-red: #ff002b;
+--dark-red: #c40021;
+--soft-bg: #fff5f6;
+--glass: rgba(255, 255, 255, 0.8);
+--transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+body { background-color:#fff; color:#333; overflow-x:hidden; }
+.navbar { display:flex; justify-content:space-between; align-items:center; padding:15px 8%; background:var(--glass); backdrop-filter:blur(10px); box-shadow:0 4px 30px rgba(0,0,0,0.05); position:sticky; top:0; z-index:1000; }
+.logo { font-size:26px; font-weight:900; color:var(--primary-red); text-decoration:none; letter-spacing:-1px; }
+.nav-links a { margin-left:25px; text-decoration:none; color:#444; font-weight:700; transition:var(--transition); font-size:15px; }
+.nav-links a:hover { color:var(--primary-red); }
+.hero { height:70vh; background:linear-gradient(135deg, rgba(255,0,43,0.9), rgba(196,0,33,0.8)), url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; text-align:center; color:#fff; clip-path: ellipse(150% 100% at 50% 0%); }
+.hero-content h1 { font-size:clamp(40px, 8vw, 70px); font-weight:900; margin-bottom:10px; }
+.hero-content p { font-size:20px; font-weight:300; margin-bottom:30px; opacity:0.9; }
+.btn-main { padding:15px 40px; background:#fff; color:var(--primary-red); border-radius:50px; text-decoration:none; font-weight:800; box-shadow:0 10px 20px rgba(0,0,0,0.1); transition:var(--transition); display:inline-block; }
+.btn-main:hover { transform:translateY(-5px); box-shadow:0 15px 30px rgba(0,0,0,0.2); }
+.services { padding:100px 8%; display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:30px; }
+.card { background:var(--soft-bg); padding:40px 20px; border-radius:25px; text-align:center; transition:var(--transition); border:1px solid rgba(255,0,43,0.05); cursor:pointer; }
+.card i { font-size:40px; color:var(--primary-red); margin-bottom:20px; }
+.card:hover { background:var(--primary-red); transform:scale(1.05); }
+.card:hover i, .card:hover h3 { color:#fff; }
+.info-section { padding:80px 8%; text-align:center; background:#fff; }
+.section-title { color:var(--primary-red); font-size:35px; margin-bottom:40px; position:relative; }
+.cta-btns a { display:inline-flex; align-items:center; padding:15px 35px; margin:10px; border-radius:50px; color:#fff; text-decoration:none; font-weight:700; gap:10px; transition:var(--transition); }
+.btn-call { background:var(--primary-red); }
+.btn-wa { background:#25d366; }
+.branches-grid { display:flex; justify-content:center; gap:30px; flex-wrap:wrap; margin-top:40px; }
+.branch-card { background:#fff; padding:30px; border-radius:20px; width:350px; box-shadow:0 10px 40px rgba(0,0,0,0.05); border-bottom:5px solid var(--primary-red); text-align:left; }
+.branch-card h3 { margin-bottom:10px; color:var(--dark-red); }
+.products { padding:100px 8%; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:25px; }
+.product { background:#fff; border-radius:20px; padding:20px; text-align:center; box-shadow:0 10px 25px rgba(0,0,0,.05); display:none; }
+.product img { width:100%; border-radius:15px; }
+.product h3 { margin:15px 0 10px; font-weight:700; }
+.product button { margin-top:10px; padding:10px 20px; border:none; background:var(--primary-red); color:#fff; border-radius:20px; cursor:pointer; font-weight:700; }
+
+/* Control Buttons */
+.cart-btn { position:fixed; bottom:20px; left:20px; background:var(--primary-red); color:#fff; width:60px; height:60px; border-radius:50%; cursor:pointer; display:flex; justify-content:center; align-items:center; font-size:24px; z-index:1001; box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+.wa-float { position:fixed; bottom:20px; right:20px; background:#25d366; color:#fff; width:60px; height:60px; border-radius:50%; cursor:pointer; display:flex; justify-content:center; align-items:center; font-size:30px; z-index:1001; box-shadow:0 4px 15px rgba(0,0,0,0.2); text-decoration:none; }
+
+.cart-popup { position:fixed; bottom:90px; left:20px; background:#fff; width:300px; max-height:400px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.2); overflow-y:auto; padding:20px; display:none; flex-direction:column; gap:10px; z-index:1001; }
+footer { background:#222; color:#fff; padding:40px; text-align:center; }
+@media (max-width:768px) { .navbar { padding:15px 5%; } .nav-links { display:none; } .hero { clip-path:none; } }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+<a href="#" class="logo">OMAR <span style="font-weight:300">PHARMACY</span></a>
+<div class="nav-links">
+<a href="#services">Services</a>
+<a href="#branches">Branches</a>
+<a href="tel:16103">Hotline: 16103</a>
+</div>
+</nav>
+
+<section class="hero">
+<div class="hero-content" data-aos="fade-up">
+<h1>Omar Pharmacy</h1>
+<p>Your Health, Our Priority</p>
+<a href="tel:16103" class="btn-main">Order Now</a>
+</div>
+</section>
+
+<section id="services" class="services">
+<div class="card" data-category="medicines"><i class="fas fa-pills"></i><h3>Medicines</h3></div>
+<div class="card" data-category="baby"><i class="fas fa-baby"></i><h3>Baby Care</h3></div>
+<div class="card" data-category="beauty"><i class="fas fa-magic"></i><h3>Skin Care</h3></div>
+<div class="card" data-category="delivery"><i class="fas fa-truck-fast"></i><h3>Delivery</h3></div>
+</section>
+
+<section id="products" class="products">
+<div class="product" data-category="medicines" data-name="Panadol" data-price="15"><img src="https://via.placeholder.com/200?text=Panadol"><h3>Panadol</h3><button onclick="addToCart('Panadol',15)">Order</button></div>
+<div class="product" data-category="medicines" data-name="Vitamin C" data-price="25"><img src="https://via.placeholder.com/200?text=Vitamin+C"><h3>Vitamin C</h3><button onclick="addToCart('Vitamin C',25)">Order</button></div>
+<div class="product" data-category="medicines" data-name="Aspirin" data-price="18"><img src="https://via.placeholder.com/200?text=Aspirin"><h3>Aspirin</h3><button onclick="addToCart('Aspirin',18)">Order</button></div>
+<div class="product" data-category="medicines" data-name="Amoxicillin" data-price="45"><img src="https://via.placeholder.com/200?text=Amoxicillin"><h3>Amoxicillin</h3><button onclick="addToCart('Amoxicillin',45)">Order</button></div>
+<div class="product" data-category="medicines" data-name="Omega 3" data-price="60"><img src="https://via.placeholder.com/200?text=Omega+3"><h3>Omega 3</h3><button onclick="addToCart('Omega 3',60)">Order</button></div>
+
+<div class="product" data-category="baby" data-name="Baby Lotion" data-price="35"><img src="https://via.placeholder.com/200?text=Lotion"><h3>Baby Lotion</h3><button onclick="addToCart('Baby Lotion',35)">Order</button></div>
+<div class="product" data-category="baby" data-name="Diapers" data-price="50"><img src="https://via.placeholder.com/200?text=Diapers"><h3>Diapers</h3><button onclick="addToCart('Diapers',50)">Order</button></div>
+<div class="product" data-category="baby" data-name="Baby Shampoo" data-price="40"><img src="https://via.placeholder.com/200?text=Shampoo"><h3>Baby Shampoo</h3><button onclick="addToCart('Baby Shampoo',40)">Order</button></div>
+<div class="product" data-category="baby" data-name="Baby Powder" data-price="25"><img src="https://via.placeholder.com/200?text=Powder"><h3>Baby Powder</h3><button onclick="addToCart('Baby Powder',25)">Order</button></div>
+
+<div class="product" data-category="beauty" data-name="Face Cream" data-price="40"><img src="https://via.placeholder.com/200?text=Cream"><h3>Face Cream</h3><button onclick="addToCart('Face Cream',40)">Order</button></div>
+<div class="product" data-category="beauty" data-name="Lipstick" data-price="20"><img src="https://via.placeholder.com/200?text=Lipstick"><h3>Lipstick</h3><button onclick="addToCart('Lipstick',20)">Order</button></div>
+<div class="product" data-category="beauty" data-name="Sunblock" data-price="120"><img src="https://via.placeholder.com/200?text=Sunblock"><h3>Sunblock</h3><button onclick="addToCart('Sunblock',120)">Order</button></div>
+<div class="product" data-category="beauty" data-name="Micellar Water" data-price="85"><img src="https://via.placeholder.com/200?text=Micellar"><h3>Micellar Water</h3><button onclick="addToCart('Micellar Water',85)">Order</button></div>
+<div class="product" data-category="beauty" data-name="Hair Mask" data-price="55"><img src="https://via.placeholder.com/200?text=Mask"><h3>Hair Mask</h3><button onclick="addToCart('Hair Mask',55)">Order</button></div>
+</section>
+
+<div class="cart-btn" onclick="toggleCart()"><i class="fas fa-shopping-cart"></i></div>
+<a href="https://wa.me/201272740996" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+<div class="cart-popup" id="cartPopup"></div>
+
+<section class="info-section" style="background: var(--soft-bg);">
+<h2 class="section-title" data-aos="fade-down">Contact Us Now</h2>
+<div class="cta-btns" data-aos="fade-up">
+<a href="tel:16103" class="btn-call"><i class="fas fa-phone"></i> Hotline: 16103</a>
+<a href="https://wa.me/201272740996" class="btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp Chat</a>
+</div>
+</section>
+
+<section id="branches" class="info-section">
+<h2 class="section-title">Our Branches</h2>
+<div class="branches-grid">
+<div class="branch-card" data-aos="flip-right"><h3>5th Settlement</h3><p><i class="fas fa-map-marker-alt"></i> In front of the Court - Medical Park</p><p><i class="fas fa-mobile-screen"></i> 01117070538</p></div>
+<div class="branch-card" data-aos="flip-left"><h3>1st Settlement</h3><p><i class="fas fa-map-marker-alt"></i> Emerald Mall - Above Lulu Market</p><p><i class="fas fa-mobile-screen"></i> 01272740996</p></div>
+</div>
+</section>
+
+<footer>
+<p>© 2026 Omar Pharmacy - All Rights Reserved</p>
+<div style="margin-top:15px;">
+<a href="https://www.facebook.com/share/1Ap2k4VT1R/" style="color:#fff;margin:0 10px;font-size:20px;"><i class="fab fa-facebook"></i></a>
+<a href="https://wa.me/201272740996" style="color:#fff;margin:0 10px;font-size:20px;"><i class="fab fa-whatsapp"></i></a>
+</div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+AOS.init({ duration:1000, once:true });
+
+let cart = {};
+
+function addToCart(name, price) {
+if(cart[name]) { cart[name].qty++; } else { cart[name]={price:price,qty:1}; }
+renderCart();
+if(document.getElementById('cartPopup').style.display !== 'flex') toggleCart();
+}
+
+function renderCart() {
+const popup=document.getElementById('cartPopup');
+popup.innerHTML='';
+let total=0;
+for(const item in cart){
+let row=document.createElement('div');
+row.style.display='flex';
+row.style.justifyContent='space-between';
+row.style.alignItems='center';
+row.style.marginBottom='12px';
+row.style.borderBottom='1px solid #eee';
+row.style.paddingBottom='5px';
+
+// Action buttons with spacing
+row.innerHTML=`
+    <span style="font-weight:600; font-size:14px;">${item} (x${cart[item].qty})</span>
+    <div style="display:flex; gap:15px;">
+        <button style="background:#25d366; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;" onclick="changeQty('${item}',1)">+</button>
+        <button style="background:var(--primary-red); color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;" onclick="changeQty('${item}',-1)">-</button>
+    </div>`;
+popup.appendChild(row);
+total+=cart[item].price*cart[item].qty;
+}
+
+if(Object.keys(cart).length>0){
+let totalDiv = document.createElement('div');
+totalDiv.innerHTML = `<h4 style="margin:10px 0; text-align:center;">Total: ${total} EGP</h4>`;
+popup.appendChild(totalDiv);
+
+let orderBtn=document.createElement('button');
+orderBtn.innerText='Order via WhatsApp';
+orderBtn.style.marginTop='10px';
+orderBtn.style.width='100%';
+orderBtn.style.padding='12px';
+orderBtn.style.backgroundColor='var(--primary-red)';
+orderBtn.style.color='#fff';
+orderBtn.style.border='none';
+orderBtn.style.borderRadius='15px';
+orderBtn.style.cursor='pointer';
+orderBtn.style.fontWeight='800';
+orderBtn.onclick=sendOrder;
+popup.appendChild(orderBtn);
+}else{popup.innerHTML='<p style="text-align:center">Your cart is empty</p>';}
+}
+
+function changeQty(name,delta){
+cart[name].qty+=delta;
+if(cart[name].qty<=0) delete cart[name];
+renderCart();
+}
+
+function toggleCart(){
+const popup=document.getElementById('cartPopup');
+popup.style.display=popup.style.display==='flex'?'none':'flex';
+}
+
+document.querySelectorAll('.card').forEach(card=>{
+card.addEventListener('click',()=>{ 
+const category=card.getAttribute('data-category');
+document.querySelectorAll('.product').forEach(prod=>{
+prod.style.display='none';
+if(prod.getAttribute('data-category')===category) prod.style.display='block';
+});
+window.location.hash = 'products';
+});
+});
+
+function sendOrder(){
+let text='New Order from Website:\n';
+for(const item in cart){ text+=`- ${item} x ${cart[item].qty}\n`; }
+window.open('https://wa.me/201272740996?text='+encodeURIComponent(text));
+}
+</script>
+</body>
+</html>
